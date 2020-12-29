@@ -89,18 +89,6 @@ public class JsonEventParser implements EventParser {
 	 */
 	public Map<String, byte[]> parse(final String topic, final Schema schema, final Object value, final boolean isKey)
 			throws EventParsingException {
-//		Map<String,String> stringMapValue = new HashMap<>();
-//		if (value != null) {
-//			((HashMap<String,Object>) value).forEach((k,v) -> {
-//				if (v instanceof Integer) {
-//					stringMapValue.put(k, ((Integer)v).toString());
-//				}else if (v instanceof Long) {
-//					stringMapValue.put(k, ((Long)v).toString());
-//				}else{
-//					stringMapValue.put(k,v.toString());
-//				}
-//			});
-//		}
 		final Map<String, byte[]> values = new LinkedHashMap<>();
 		try {
 			byte[] valueBytes = null;
@@ -172,31 +160,36 @@ public class JsonEventParser implements EventParser {
 		final String fieldName = field.name();
 		final Object fieldValue = keyValues.get(fieldName);
 		//  20201229 changed by xuyouchang: 默认以字符类型插入hbase
-//		switch (type) {
-//		case STRING:
-//			return Bytes.toBytes((String) fieldValue);
-//		case BOOLEAN:
+		switch (type) {
+		case STRING:
+			return Bytes.toBytes((String) fieldValue);
+		case BOOLEAN:
 //			return Bytes.toBytes((Boolean) fieldValue);
-//		case BYTES:
-//			return Bytes.toBytes((ByteBuffer) fieldValue);
-//		case FLOAT32:
+			return Bytes.toBytes(((Boolean) fieldValue).toString());
+		case BYTES:
+			return Bytes.toBytes((ByteBuffer) fieldValue);
+		case FLOAT32:
 //			return Bytes.toBytes((Float) fieldValue);
-//		case FLOAT64:
+			return Bytes.toBytes(fieldValue.toString());
+		case FLOAT64:
 //			return Bytes.toBytes((Double) fieldValue);
-//		case INT8:
-//			return Bytes.toBytes((Byte) fieldValue);
-//		case INT16:
+			return Bytes.toBytes(fieldValue.toString());
+		case INT8:
+			return Bytes.toBytes((Byte) fieldValue);
+		case INT16:
 //			return Bytes.toBytes((Short) fieldValue);
-//		case INT32:
+			return Bytes.toBytes(((Short) fieldValue).toString());
+		case INT32:
 //			return Bytes.toBytes((Integer) fieldValue);
-//		case INT64:
+			return Bytes.toBytes(((Integer) fieldValue).toString());
+		case INT64:
 //			return Bytes.toBytes((Long) fieldValue);
-//		// case MAP:
-//		// return Bytes.toBytes(new JSONObject((Map)fieldValue).toString());
-//		default:
-//			return null;
-//		}
-		return Bytes.toBytes((String) fieldValue);
+			return Bytes.toBytes(((Long) fieldValue).toString());
+		// case MAP:
+		// return Bytes.toBytes(new JSONObject((Map)fieldValue).toString());
+		default:
+			return null;
+		}
 	}
 
 	/**
@@ -208,28 +201,32 @@ public class JsonEventParser implements EventParser {
 	private byte[] toValue(Object fieldValue) {
 		Preconditions.checkNotNull(fieldValue);
 		// 20201229 changed by xuyouchang: 默认以字符类型插入hbase
-//		Class<?> clazz = fieldValue.getClass();
-//		String type = clazz.getSimpleName().toUpperCase();
-//		switch (type) {
-//		case "STRING":
-//			return Bytes.toBytes((String) fieldValue);
-//		case "BOOLEAN":
+		Class<?> clazz = fieldValue.getClass();
+		String type = clazz.getSimpleName().toUpperCase();
+		switch (type) {
+		case "STRING":
+			return Bytes.toBytes((String) fieldValue);
+		case "BOOLEAN":
 //			return Bytes.toBytes((Boolean) fieldValue);
-//		case "BYTES":
-//			return Bytes.toBytes((ByteBuffer) fieldValue);
-//		case "FLOAT":
+			return Bytes.toBytes(((Boolean) fieldValue).toString());
+		case "BYTES":
+			return Bytes.toBytes((ByteBuffer) fieldValue);
+		case "FLOAT":
 //			return Bytes.toBytes((Float) fieldValue);
-//		case "SHORT":
+			return Bytes.toBytes(fieldValue.toString());
+		case "SHORT":
 //			return Bytes.toBytes((Short) fieldValue);
-//		case "INTEGER":
+			return Bytes.toBytes(((Short) fieldValue).toString());
+		case "INTEGER":
 //			return Bytes.toBytes((Integer) fieldValue);
-//		case "LONG":
+			return Bytes.toBytes(((Integer) fieldValue).toString());
+		case "LONG":
 //			return Bytes.toBytes((Long) fieldValue);
-//		// case MAP:
-//		// return Bytes.toBytes(new JSONObject((Map)fieldValue).toString());
-//		default:
-//			return null;
-//		}
-		return Bytes.toBytes((String) fieldValue);
+			return Bytes.toBytes(((Long) fieldValue).toString());
+		// case MAP:
+		// return Bytes.toBytes(new JSONObject((Map)fieldValue).toString());
+		default:
+			return null;
+		}
 	}
 }
