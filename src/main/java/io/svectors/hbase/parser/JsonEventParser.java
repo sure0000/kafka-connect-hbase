@@ -89,6 +89,16 @@ public class JsonEventParser implements EventParser {
 	 */
 	public Map<String, byte[]> parse(final String topic, final Schema schema, final Object value, final boolean isKey)
 			throws EventParsingException {
+		Map<String,String> stringMapValue = new HashMap<>();
+		((HashMap<String,Object>) value).forEach((k,v) -> {
+			if (v instanceof Integer) {
+				stringMapValue.put(k, ((Integer)v).toString());
+			}else if (v instanceof Long) {
+				stringMapValue.put(k, ((Long)v).toString());
+			}else{
+				stringMapValue.put(k,v.toString());
+			}
+		});
 		final Map<String, byte[]> values = new LinkedHashMap<>();
 		try {
 			byte[] valueBytes = null;
