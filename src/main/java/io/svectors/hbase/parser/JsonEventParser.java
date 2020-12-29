@@ -125,7 +125,9 @@ public class JsonEventParser implements EventParser {
 					if (fieldValue == null) {
 						continue;
 					}
-					values.put(field.name(), fieldValue);
+					// changed by xuyouchang at 20201229: 字段名大写
+//					values.put(field.name(), fieldValue);
+					values.put(field.name().toUpperCase(), fieldValue);
 				}
 			} else {
 				 
@@ -135,7 +137,9 @@ public class JsonEventParser implements EventParser {
 					});
 				}
 				keyValues.entrySet().forEach(entry -> {
-					values.put(entry.getKey(), toValue(entry.getValue()));
+					// changed by xuyouchang at 20201229: 字段名大写
+//					values.put(entry.getKey(), toValue(entry.getValue()));
+					values.put(entry.getKey().toUpperCase(), toValue(entry.getValue()));
 				});
 			}
 			return values;
