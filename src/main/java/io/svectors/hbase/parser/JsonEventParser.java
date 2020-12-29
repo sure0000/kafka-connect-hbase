@@ -110,9 +110,9 @@ public class JsonEventParser implements EventParser {
 				}
 			} else {
 				if (schema != null) {
-					valueBytes = valueConverter.fromConnectData(topic, schema, value);
+					valueBytes = valueConverter.fromConnectData(topic, schema, stringMapValue);
 				} else {
-					valueBytes = valueConverter.fromConnectData(topic, null, value);
+					valueBytes = valueConverter.fromConnectData(topic, null, stringMapValue);
 				}
 
 			}
