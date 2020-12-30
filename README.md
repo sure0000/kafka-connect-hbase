@@ -1,7 +1,22 @@
+# 修改部分说明
+
+修改位置一：
+io.svectors.hbase.parser.JsonEventParser.toValue(java.util.Map<java.lang.String,java.lang.Object>, org.apache.kafka.connect.data.Field)
+io.svectors.hbase.parser.JsonEventParser.toValue(java.lang.Object)
+
+修改数据存储到hbase的类型，在 (issue 8)[https://github.com/nishutayal/kafka-connect-hbase/issues/8] 中有说明，Integer/Float/Long 类型默认在hbase中无法显示，
+由于项目中的需要，将数据默认格式修改为String。
+
+修改位置二：
+io.svectors.hbase.parser.JsonEventParser.parse
+
+由于公司项目中采用了 presto(Trino版本)，其中phoenix插件查询默认支持大写的 column，因此将 column 统一改成大写格式。
+
+
 # Kafka Connect for Hbase
 
 A Sink connector to write to HBase.  
-This is enhanced version of implementation available at https://github.com/mravi/hbase-connect-kafka
+This is enhanced version of implementation available at https://github.com/nishutayal/kafka-connect-hbase
 
 ## Features
 Sink supports:
@@ -11,9 +26,9 @@ Sink supports:
 * Row key selection
  
 ## Pre-requisites
-* Confluent 4.0
+
 * Kafka 1.0.0
-* HBase 1.4.0
+* HBase 1.3.6
 * JDK 1.8
 
 ## Assumptions
